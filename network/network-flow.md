@@ -37,22 +37,22 @@ A Cloudflare funciona como ponto de entrada principal do tráfego, realizando ca
 ## Fluxo de Entrada
 
 Usuário
-│
+|
 ▼
 Registro.br (DNS autoritativo)
-│
+|
 ▼
 Cloudflare (CDN + Proxy Reverso)
-│
+|
 ▼
 Application Load Balancer (AWS)
-│
+|
 ▼
 Auto Scaling Group
-│
+|
 ▼
 Amazon EC2 (Subnets privadas)
-│
+|
 ▼
 Amazon RDS PostgreSQL
 
@@ -106,25 +106,25 @@ Usuário
 │
 ▼
 Registro.br
-│
+|
 ▼
 Amazon Route 53
-│
+|
 ▼
 Amazon CloudFront
-│
+|
 ▼
 AWS WAF
-│
+|
 ▼
 Application Load Balancer (AWS)
-│
+|
 ▼
 Auto Scaling Group
-│
+|
 ▼
 Amazon EC2 (Subnets privadas)
-│
+|
 ▼
 Amazon RDS PostgreSQL
 
