@@ -1,88 +1,148 @@
-Subnets
-Visão Geral
+# Subnets
 
-As Subnets da EDN Cloud Platform representam a segmentação da VPC em camadas públicas e privadas, garantindo isolamento, alta disponibilidade e separação de responsabilidades.
+## Visão Geral
+
+As Subnets representam a segmentação da VPC em camadas públicas e privadas, garantindo isolamento, alta disponibilidade e separação de responsabilidades.
 
 A arquitetura é distribuída em duas Availability Zones e segue um modelo padrão de produção AWS.
 
-VPC
-10.0.0.0/16
-Internet Gateway
+---
+
+# VPC
+
+A infraestrutura utiliza a seguinte faixa de endereçamento:
+
+| Recurso | CIDR        |
+| ------- | ----------- |
+| VPC     | 10.0.0.0/16 |
+
+---
+
+# Internet Gateway
 
 A VPC utiliza o Internet Gateway:
 
-igw_prod
+**igw_prod**
 
-O IGW é associado às subnets públicas e permite comunicação com a Internet para recursos de entrada controlada.
+O Internet Gateway é associado às subnets públicas e permite a comunicação com a Internet para recursos de entrada controlada.
 
-Subnets
-AZ	Tipo	CIDR	Nome da Subnet	Função
-A	Public	10.0.1.0/24	snet_prod_public_a	ALB / Internet Gateway
-B	Public	10.0.2.0/24	snet_prod_public_b	ALB / Internet Gateway
-A	Private Application	10.0.10.0/24	snet_prod_app_private_a	EC2 / Auto Scaling
-B	Private Application	10.0.11.0/24	snet_prod_app_private_b	EC2 / Auto Scaling
-A	Private Database	10.0.20.0/24	snet_prod_bd_private_a	RDS PostgreSQL
-B	Private Database	10.0.21.0/24	snet_prod_bd_private_b	RDS PostgreSQL
-Camadas da Arquitetura
-Public Subnets
+---
 
-Responsáveis pela entrada da aplicação:
+# Estrutura das Subnets
 
-Application Load Balancer (ALB)
-Acesso à Internet via igw_prod
+A infraestrutura é composta por seis subnets distribuídas em duas Availability Zones.
+
+| AZ | Tipo                | CIDR         | Nome da Subnet          | Função                 |
+| -- | ------------------- | ------------ | ----------------------- | ---------------------- |
+| A  | Public              | 10.0.1.0/24  | snet_prod_public_a      | ALB / Internet Gateway |
+| B  | Public              | 10.0.2.0/24  | snet_prod_public_b      | ALB / Internet Gateway |
+| A  | Private Application | 10.0.10.0/24 | snet_prod_app_private_a | EC2 / Auto Scaling     |
+| B  | Private Application | 10.0.11.0/24 | snet_prod_app_private_b | EC2 / Auto Scaling     |
+| A  | Private Database    | 10.0.20.0/24 | snet_prod_bd_private_a  | RDS PostgreSQL         |
+| B  | Private Database    | 10.0.21.0/24 | snet_prod_bd_private_b  | RDS PostgreSQL         |
+
+---
+
+# Camadas da Arquitetura
+
+A arquitetura é organizada em três camadas, cada uma com responsabilidades específicas.
+
+---
+
+# Public Subnets
+
+As Public Subnets são responsáveis pela entrada da aplicação.
+
+## Recursos associados
+
+* Application Load Balancer (ALB)
+* Acesso à Internet via **igw_prod**
 
 Apenas recursos de entrada controlada são expostos.
 
-Private Application Subnets
+---
 
-Camada de aplicação:
+# Private Application Subnets
 
-Amazon EC2 (Auto Scaling Group)
-Docker Runtime
-AWS Systems Manager Agent
+As Private Application Subnets hospedam a camada de aplicação.
 
-Sem IP público e sem acesso direto à Internet (varia por estratégia).
+## Recursos associados
 
-Private Database Subnets
+* Amazon EC2 (Auto Scaling Group)
+* Docker Runtime
+* AWS Systems Manager Agent
 
-Camada de dados:
+As instâncias não possuem IP público e não possuem acesso direto à Internet, dependendo da estratégia arquitetural adotada.
 
-Amazon RDS PostgreSQL (Multi-AZ)
+---
 
-Totalmente isolado, acessível apenas pela camada de aplicação.
+# Private Database Subnets
 
-Estratégia Low Cost
+As Private Database Subnets são responsáveis pela camada de dados.
 
-Na arquitetura Low Cost, as subnets privadas não utilizam NAT Gateway.
+## Recursos associados
 
-O acesso a serviços AWS ocorre via VPC Endpoints, mantendo o tráfego dentro da rede da AWS.
+* Amazon RDS PostgreSQL (Multi-AZ)
 
-Interface Endpoints
-SSM
-SSMMessages
-EC2Messages
-ECR API
-ECR DKR
-Gateway Endpoint
-Amazon S3
-Estratégia Maior Investimento
+Essa camada permanece totalmente isolada, sendo acessível apenas pela camada de aplicação.
 
-Na arquitetura de maior investimento:
+---
 
-Subnets privadas utilizam NAT Gateway
-Acesso direto à Internet para instâncias EC2
-Não utiliza VPC Endpoints
-Maior flexibilidade operacional
-Maior custo
-Resumo Arquitetural
+# Estratégia Low Cost
 
-A arquitetura de subnets da EDN Cloud Platform é baseada em três camadas:
+Na arquitetura **Low Cost**, as subnets privadas não utilizam NAT Gateway.
 
-Public Subnets: entrada via ALB e Internet Gateway (igw_prod)
-Private Application Subnets: execução da aplicação (EC2 + ASG)
-Private Database Subnets: persistência (RDS PostgreSQL)
+O acesso aos serviços AWS ocorre através de **VPC Endpoints**, mantendo todo o tráfego dentro da rede privada da AWS.
 
-A diferença entre as estratégias está no modelo de conectividade:
+## Interface Endpoints
 
-Low Cost: VPC Endpoints (sem NAT Gateway)
-Maior Investimento: NAT Gateway (com acesso à Internet)
+* SSM
+* SSMMessages
+* EC2Messages
+* ECR API
+* ECR DKR
+
+## Gateway Endpoint
+
+* Amazon S3
+
+---
+
+# Estratégia Maior Investimento
+
+Na arquitetura de **Maior Investimento**:
+
+* As subnets privadas utilizam NAT Gateway.
+* As instâncias EC2 possuem acesso à Internet.
+* Não são utilizados VPC Endpoints.
+* Há maior flexibilidade operacional.
+* O custo operacional é mais elevado.
+
+---
+
+# Comparação entre as Propostas
+
+| Característica                       | Low Cost | Maior Investimento |
+| ------------------------------------ | :------: | :----------------: |
+| NAT Gateway                          |     ✖    |          ✔         |
+| VPC Endpoints                        |     ✔    |          ✖         |
+| Acesso direto à Internet             |     ✖    |          ✔         |
+| Comunicação privada com serviços AWS |     ✔    |       Parcial      |
+| Maior flexibilidade operacional      |     ✖    |          ✔         |
+| Menor custo operacional              |     ✔    |          ✖         |
+
+---
+
+# Resumo Arquitetural
+
+A arquitetura de subnets da **EDN Cloud Platform** é baseada em três camadas:
+
+* **Public Subnets:** entrada da aplicação através do Application Load Balancer e Internet Gateway (**igw_prod**).
+* **Private Application Subnets:** execução da aplicação utilizando Amazon EC2 e Auto Scaling Group.
+* **Private Database Subnets:** persistência dos dados utilizando Amazon RDS PostgreSQL.
+
+A principal diferença entre as propostas arquiteturais está na conectividade das subnets privadas.
+
+Na proposta **Low Cost**, o acesso aos serviços AWS ocorre por meio de **VPC Endpoints**, eliminando a necessidade de um NAT Gateway e reduzindo custos.
+
+Na proposta de **Maior Investimento**, as instâncias privadas utilizam um **NAT Gateway** para acesso controlado à Internet, oferecendo maior flexibilidade operacional para aplicações corporativas.
