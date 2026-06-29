@@ -121,8 +121,8 @@ O Security Group controla todo o tráfego permitido para as instâncias EC2.
 
 | Porta | Protocolo | Origem                    | Finalidade                      |
 | ----- | --------- | ------------------------- | ------------------------------- |
-| 80    | TCP       | Application Load Balancer | Tráfego HTTP                    |
-| 443   | TCP       | Application Load Balancer | Tráfego HTTPS                   |
+
+| 3001   | TCP       | Application Load Balancer | Tráfego HTTPS                   |
 | 5432  | TCP       | Amazon RDS PostgreSQL     | Comunicação com banco de dados* |
 
 > **Observação:** na prática, aplicações web normalmente iniciam conexões para o banco de dados. Assim, a implementação mais comum consiste em permitir a comunicação da aplicação com o Amazon RDS por meio de regras complementares entre os Security Groups, restringindo o acesso exclusivamente aos recursos autorizados.
