@@ -5,7 +5,10 @@ Este documento apresenta a arquitetura da **Proposta de Maior Investimento** do 
 A proposta foi projetada para atender aplicações que exigem alta disponibilidade, segurança, observabilidade e escalabilidade, utilizando serviços gerenciados da Amazon Web Services (AWS) e seguindo boas práticas recomendadas pelo AWS Well-Architected Framework.
 
 ---
+### Diagrama 
+<img width="1221" height="1220" alt="Image" src="https://github.com/user-attachments/assets/fa01feed-ce63-48b9-a195-2681d7f581a4" />
 
+---
 ### Visão Geral da Arquitetura
 
 A arquitetura é composta por múltiplas camadas responsáveis por fornecer segurança, balanceamento de carga, processamento da aplicação, persistência dos dados, automação de deploy e monitoramento da infraestrutura.
