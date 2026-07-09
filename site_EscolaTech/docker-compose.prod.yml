@@ -1,0 +1,42 @@
+# Produção: EC2 + RDS externo.
+# NÃO use docker-compose.yml (desenvolvimento local) para isso.
+#
+# Antes de rodar:
+#   1. Preencha TODAS as variáveis marcadas com <PREENCHER>
+#   2. Garanta que o Security Group do RDS libera porta 5432 para esta EC2
+#   3. Rode: docker-compose -f docker-compose.prod.yml up -d
+#   4. Rode: docker-compose -f docker-compose.prod.yml exec backend npm run migrate
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      # RDS — substitua pelo endpoint real
+      DB_HOST: <ENDPOINT-DO-RDS>
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: <SENHA-DO-RDS>
+      DB_NAME: go2cloud
+      # Gere com: openssl rand -base64 48
+      JWT_SECRET: <GERAR-SEGREDO-FORTE>
+      FRONTEND_URL: http://<IP-PUBLICO-EC2>:3001
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      # IP público da EC2 — o browser do usuário precisa alcançar isso
+      NEXT_PUBLIC_API_URL: http://<IP-PUBLICO-EC2>:3000/api
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+    restart: unless-stopped

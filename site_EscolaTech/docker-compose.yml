@@ -1,0 +1,68 @@
+version: '3.8'
+
+# Local development orchestration with hot-reload.
+# For production deployment (EC2/ECR), use the standalone ./backend/Dockerfile
+# and ./frontend/Dockerfile instead — see README.md → "Deployment AWS".
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: go2cloud
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: go2cloud
+      JWT_SECRET: dev-only-insecure-secret
+      FRONTEND_URL: http://localhost:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/tsconfig.json:/app/tsconfig.json
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      # NEXT_PUBLIC_* vars are read by the browser, not the container.
+      # Must be localhost so the user's browser can reach the backend port.
+      NEXT_PUBLIC_API_URL: http://localhost:3000/api
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/tailwind.config.ts:/app/tailwind.config.ts
+      - ./frontend/postcss.config.mjs:/app/postcss.config.mjs
+      - ./frontend/next.config.js:/app/next.config.js
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+
+volumes:
+  postgres_data:

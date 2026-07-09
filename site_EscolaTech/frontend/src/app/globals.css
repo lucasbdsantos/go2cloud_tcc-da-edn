@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply m-0 p-0 box-border;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-background text-on-background font-inter overflow-x-hidden;
+}
+
+.glass-card {
+  @apply relative bg-surface/40 backdrop-blur-glass rounded-lg;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: inset 0 1px 1px rgba(56, 189, 248, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.glow-accent {
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+.input-glow {
+  @apply transition-all duration-300;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.input-glow:focus {
+  @apply outline-none;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+  border-color: rgba(56, 189, 248, 0.8) !important;
+}
+
+.input-glow:hover:not(:focus) {
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.1);
+}
+
+.btn-glow {
+  @apply transition-all duration-300;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.5);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    @apply !transition-none !animate-none;
+  }
+}

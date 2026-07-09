@@ -1,0 +1,13 @@
+# Development image: runs `next dev` for hot-reload against the mounted src
+# volume. Used by docker-compose.yml. For production, use ./Dockerfile instead
+# (multi-stage standalone build), which does NOT support volume-mounted src.
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+EXPOSE 3001
+
+CMD ["npm", "run", "dev", "--", "-p", "3001"]
