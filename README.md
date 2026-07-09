@@ -45,8 +45,7 @@ Focada em eficiência financeira e simplicidade operacional, ideal para startups
 *   **Amazon RDS Multi-AZ:** Banco de dados gerenciado com alta disponibilidade e failover automático.
 
 ### Diagrama da arquitetura de Menor custo
-
-
+<img width="1216" height="1280" alt="Image" src="https://github.com/user-attachments/assets/7a40ec2f-fafa-4983-bb4c-7289be0de6a8" />
 
 ### 2. Arquitetura de Maior Investimento (Enterprise)
 Prioriza performance global, resiliência total e observabilidade avançada, seguindo as melhores práticas para ambientes corporativos críticos.
@@ -58,8 +57,7 @@ Prioriza performance global, resiliência total e observabilidade avançada, seg
 *   **Observabilidade Avançada:** Inclui **CloudWatch Logs, Dashboards e Alarmes**, além de auditoria completa via **AWS Config** e **CloudTrail**.
 
 ### Diagrama da arquitetura de Maior custo
-
-
+<img width="1221" height="1220" alt="Image" src="https://github.com/user-attachments/assets/fa01feed-ce63-48b9-a195-2681d7f581a4" />
 
 </br>
 
