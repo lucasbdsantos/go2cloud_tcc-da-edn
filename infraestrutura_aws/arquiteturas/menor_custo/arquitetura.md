@@ -6,6 +6,11 @@ A proposta foi projetada para atender aplicações que exigem alta disponibilida
 
 ---
 
+### Diagrama
+<img width="1216" height="1280" alt="Image" src="https://github.com/user-attachments/assets/7a40ec2f-fafa-4983-bb4c-7289be0de6a8" />
+
+---
+
 ### Visão Geral
 
 A arquitetura **Low Cost** foi projetada para fornecer um ambiente em nuvem seguro, altamente disponível e escalável, mantendo o menor custo operacional possível.
