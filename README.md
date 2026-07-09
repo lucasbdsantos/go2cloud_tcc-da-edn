@@ -1,4 +1,5 @@
 # Go2Cloud: Arquitetura Multicamada na AWS
+<img width="1300" height="700" alt="Image" src="https://github.com/user-attachments/assets/a00376c3-0e15-4c3b-ba7f-9904f237c7bf" />
 
 ## Descrição
 Este projeto é o TCC da Escola da Nuvem. Ele apresenta o design e a implementação de uma infraestrutura de nuvem robusta, escalável e segura na AWS. O foco central é a comparação entre duas abordagens arquiteturais: uma **Low-Cost** (otimizando custos com Cloudflare e VPC Endpoints) e uma **Enterprise** (totalmente integrada com serviços nativos AWS como CloudFront, Route 53 e WAF). A plataforma educacional **EscolaTech** é utilizada como aplicação de referência para validar a infraestrutura.
