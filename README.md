@@ -76,4 +76,4 @@ A aplicação pode ser executada localmente utilizando **Docker Compose**, o que
 O fluxo de deploy é automatizado via pipeline de **CI/CD**: push para o GitHub aciona o **AWS CodeBuild**, que gera a imagem Docker, armazena no **Amazon ECR** e atualiza as instâncias via **AWS Systems Manager**.
 
 ## 🧑🏻‍💻 Autores
-Desenvolvido por: Cassiano Moura, Lucas Rafael, Lucas Santos, Matheus Luiz, [@Paulo Souza](https://github.com/prsouza91) e Vinicius Vasconcelos.
+Desenvolvido por: Cassiano Moura,[@Lucas Rafael](https://github.com/zlluska), [@Lucas Santos](https://github.com/lucasbdsantos), [@Matheus Luiz](https://github.com/matheusluiztrab-maker), [@Paulo Souza](https://github.com/prsouza91) e [@Vinicius Vasconcelos](https://github.com/ViniciusVas).
